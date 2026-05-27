@@ -3,7 +3,7 @@ import time
 
 caminho_mesa = os.path.expanduser("~/Desktop")
 
-# Defina aqui os dias (mude para 0 se quiser apagar tudo de hoje para testar)
+# Defina aqui os dias
 dias_limite = 1
 tempo_limite = time.time() - (dias_limite * 24 * 60 * 60)
 
@@ -12,7 +12,6 @@ print("Verificando prints antigos na Mesa...")
 for arquivo in os.listdir(caminho_mesa):
     nome_minusculo = arquivo.lower()
     
-    # Procura por 'captura' e 'tela' separadamente para evitar o bug do 'à' no Mac
     if "captura" in nome_minusculo and "tela" in nome_minusculo:
         if nome_minusculo.endswith((".png", ".jpg", ".jpeg")):
             
