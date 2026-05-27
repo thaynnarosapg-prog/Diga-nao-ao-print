@@ -1,26 +1,24 @@
 import os
 import time
 
-# Onde o robô vai olhar (Sua Mesa)
 caminho_mesa = os.path.expanduser("~/Desktop")
 
-# Calculando 3 dias atrás
-segundos_em_3_dias = 3 * 24 * 60 * 60
-tempo_limite = time.time() - segundos_em_3_dias
+# Defina aqui os dias (mude para 0 se quiser apagar tudo de hoje para testar)
+dias_limite = 1
+tempo_limite = time.time() - (dias_limite * 24 * 60 * 60)
 
 print("Verificando prints antigos na Mesa...")
 
-# Olhando arquivo por arquivo
 for arquivo in os.listdir(caminho_mesa):
+    nome_minusculo = arquivo.lower()
     
-    # Só mexe se for print (.png) e começar com "Captura de Tela"
-    if arquivo.startswith("Captura de Tela") and arquivo.endswith(".png"):
-        
-        caminho_completo = os.path.join(caminho_mesa, arquivo)
-        data_criacao = os.path.getctime(caminho_completo)
-        
-        # Se for mais velho que 3 dias
-        if data_criacao < tempo_limite:
-            print(f"Vou apagar: {arquivo}")
-            # os.remove(caminho_completo) # <--- REMOVEREI O '#' DEPOIS DO TESTE
+    # Procura por 'captura' e 'tela' separadamente para evitar o bug do 'à' no Mac
+    if "captura" in nome_minusculo and "tela" in nome_minusculo:
+        if nome_minusculo.endswith((".png", ".jpg", ".jpeg")):
             
+            caminho_completo = os.path.join(caminho_mesa, arquivo)
+            data_criacao = os.path.getctime(caminho_completo)
+            
+            if data_criacao < tempo_limite:
+                print(f"Apagando: {arquivo}")
+                os.remove(caminho_completo)
